@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineCbba - Mis Entradas</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-client.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/mis-entradas.js" defer></script>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">🎬 <span>Cine</span>Cbba</a>
+            </div>
+            <nav class="nav">
+                <a href="index.html">📽️ Cartelera</a>
+                <a href="compra.html">🎟️ Comprar Entradas</a>
+                <a href="mis-entradas.html" class="active">🎫 Mis Entradas</a>
+                <a href="cambiar-asiento.html">🪑 Cambiar Asiento</a>
+                <a href="admin.html">📊 Administración</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <h1>🎫 Mis Entradas</h1>
+        
+        <div id="alerta-container"></div>
+        
+        <div class="card">
+            <h3>🔍 Buscar mis entradas</h3>
+            <div class="form-group">
+                <label for="ci">Cédula de Identidad (CI)</label>
+                <input type="text" id="ci" placeholder="Ej: 12345678" required>
+            </div>
+            <button id="btn-buscar" class="btn btn-primario">🔍 Buscar entradas</button>
+        </div>
+        
+        <div id="entradas-container">
+            <!-- Aquí se mostrarán las entradas -->
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 CineCbba - Todos los derechos reservados</p>
+        </div>
+    </footer>
+</body>
+</html>

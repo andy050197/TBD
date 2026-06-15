@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineCbba - Comprar Entradas</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-client.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/compra.js" defer></script>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">🎬 <span>Cine</span>Cbba</a>
+            </div>
+            <nav class="nav">
+                <a href="index.html">📽️ Cartelera</a>
+                <a href="compra.html" class="active">🎟️ Comprar Entradas</a>
+                <a href="mis-entradas.html">🎫 Mis Entradas</a>
+                <a href="cambiar-asiento.html">🪑 Cambiar Asiento</a>
+                <a href="admin.html">📊 Administración</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <h1>🎟️ Comprar Entradas</h1>
+        <div id="alerta-container"></div>
+
+        <!-- Información de la función -->
+        <div id="info-funcion" class="card">
+            <h3>Información de la Función</h3>
+            <p>Cargando datos de la función...</p>
+        </div>
+
+        <!-- Datos del cliente -->
+        <div class="card">
+            <h3>👤 Datos del Cliente</h3>
+            <div class="form-group">
+                <label for="ci">Cédula de Identidad (CI) *</label>
+                <input type="text" id="ci" placeholder="Ej: 12345678" required>
+            </div>
+            <div class="form-group">
+                <label for="nombre">Nombre *</label>
+                <input type="text" id="nombre" placeholder="Ej: Juan" required>
+            </div>
+            <div class="form-group">
+                <label for="apellido">Apellido *</label>
+                <input type="text" id="apellido" placeholder="Ej: Pérez" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Correo Electrónico</label>
+                <input type="email" id="email" placeholder="Ej: juan@example.com">
+            </div>
+            <div class="form-group">
+                <label for="telefono">Teléfono</label>
+                <input type="tel" id="telefono" placeholder="Ej: 71234567">
+            </div>
+        </div>
+
+        <!-- Selección de asientos -->
+        <div class="card">
+            <h3>🪑 Selecciona tu Asiento</h3>
+            <div id="mapa-asientos-container">
+                <div class="loading">⏳ Cargando mapa de asientos...</div>
+            </div>
+            
+            <!-- Leyenda -->
+            <div class="leyenda">
+                <div class="leyenda-item">
+                    <div class="leyenda-color" style="background-color: var(--primario);"></div>
+                    <span>Disponible</span>
+                </div>
+                <div class="leyenda-item">
+                    <div class="leyenda-color" style="background-color: var(--exito);"></div>
+                    <span>Seleccionado</span>
+                </div>
+                <div class="leyenda-item">
+                    <div class="leyenda-color" style="background-color: #999;"></div>
+                    <span>Ocupado</span>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Asientos seleccionados:</label>
+                <div id="asientos-seleccionados" style="font-weight: bold; min-height: 40px;">Ninguno</div>
+            </div>
+        </div>
+
+        <!-- Resumen de compra -->
+        <div class="card">
+            <h3>💰 Resumen de Compra</h3>
+            <p><strong>Precio unitario:</strong> <span id="precio-unitario">-</span></p>
+            <p><strong>Cantidad de entradas:</strong> <span id="cantidad-entradas">0</span></p>
+            <p><strong>Total a pagar:</strong> <span id="total-pagar">-</span></p>
+            <button id="btn-comprar" class="btn btn-exito" style="width: 100%; margin-top: 15px;">✅ Confirmar Compra</button>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 CineCbba - Todos los derechos reservados</p>
+        </div>
+    </footer>
+</body>
+</html>

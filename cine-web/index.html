@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>CineCbba - Cartelera de Películas</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-client.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/cartelera.js" defer></script>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">🎬 <span>Cine</span>Cbba</a>
+            </div>
+            <nav class="nav">
+                <a href="index.html" class="active">📽️ Cartelera</a>
+                <a href="compra.html">🎟️ Comprar Entradas</a>
+                <a href="mis-entradas.html">🎫 Mis Entradas</a>
+                <a href="cambiar-asiento.html">🪑 Cambiar Asiento</a>
+                <a href="admin.html">📊 Administración</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <h1>🎬 Cartelera de Películas</h1>
+        <p>Encuentra las mejores películas en cartelera en Cochabamba</p>
+        
+        <div id="alerta-container"></div>
+
+        <!-- Filtros -->
+        <div class="card">
+            <h3>📌 Filtrar por sucursal</h3>
+            <div class="form-group">
+                <label for="sucursal">Selecciona una sucursal:</label>
+                <select id="sucursal">
+                    <option value="">🏢 Todas las sucursales</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Grid de películas -->
+        <div id="cartelera-container" class="grid-peliculas">
+            <div class="loading">⏳ Cargando cartelera...</div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 CineCbba - Todos los derechos reservados</p>
+            <p style="font-size: 0.8rem; margin-top: 5px;">Cochabamba - Bolivia</p>
+        </div>
+    </footer>
+</body>
+</html>
