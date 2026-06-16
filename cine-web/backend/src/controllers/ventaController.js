@@ -110,7 +110,7 @@ exports.obtenerEntradasPorCI = async (req, res) => {
           id_funcion,
           fecha,
           horainicio,
-          precio as precio_funcion,
+          precio ,
           pelicula:id_pelicula (
             tituloesp
           ),
@@ -156,8 +156,8 @@ exports.cambiarAsiento = async (req, res) => {
     const { error: errCambio } = await supabase
       .from('cambio_asiento')
       .insert([{
-        identrada: id_entrada,
-        id_asientonuevo: id_asiento_nuevo,
+        id_entrada: id_entrada,
+        id_asiento: id_asiento_nuevo,
         fechacambio: new Date().toISOString().split('T')[0]
       }]);
     if (errCambio) throw errCambio;

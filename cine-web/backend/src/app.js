@@ -10,10 +10,12 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+
 // Servir archivos estáticos (frontend)
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../../')));
 
 // Rutas API
+const sucursalesRoutes = require('./routes/sucursales');
 const peliculasRoutes = require('./routes/peliculas');
 const funcionesRoutes = require('./routes/funciones');
 const ventasRoutes = require('./routes/ventas');
@@ -25,10 +27,11 @@ app.use('/api/funciones', funcionesRoutes);
 app.use('/api/ventas', ventasRoutes);
 app.use('/api/cajeros', cajerosRoutes);
 app.use('/api/reportes', reportesRoutes);
+app.use('/api/sucursales', sucursalesRoutes);
 
 // Ruta raíz
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, '../../', 'index.html'));
 });
 
 module.exports = app;

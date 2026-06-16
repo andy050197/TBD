@@ -36,14 +36,20 @@ exports.listarFunciones = async (req, res) => {
     query = query.eq('sala.id_sucursal', parseInt(sucursal_id));
   }
 
-  try {
+ try {
     const { data, error } = await query;
     if (error) throw error;
-    res.json(data);
-  } catch (err) {
+    
+    let resultado = data;
+    if (sucursal_id) {
+        resultado = data.filter(f => f.sala && f.sala.id_sucursal === parseInt(sucursal_id));
+    }
+    
+    res.json(resultado);
+} catch (err) {
     console.error('Error listando funciones:', err);
     res.status(500).json({ error: err.message });
-  }
+}
 };
 
 exports.obtenerFuncion = async (req, res) => {

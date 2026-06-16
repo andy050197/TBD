@@ -9,31 +9,20 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 async function cargarSucursales() {
-    try {
-        // Obtenemos funciones para extraer las sucursales únicas
-        const funciones = await apiFetch('/funciones');
-        const sucursalesSet = new Set();
-        funciones.forEach(f => {
-            if (f.sala && f.sala.sucursal) {
-                sucursalesSet.add(JSON.stringify({ 
-                    id: f.sala.id_sucursal, 
-                    direccion: f.sala.sucursal.direccion 
-                }));
-            }
-        });
+       try {
+        const sucursales = await apiFetch('/sucursales');
         const select = document.getElementById('sucursal');
-        select.innerHTML = '<option value=""> Todas las sucursales</option>';
-        sucursalesSet.forEach(item => {
-            const obj = JSON.parse(item);
+        select.innerHTML = '<option value="">Todas las sucursales</option>';
+        sucursales.forEach(s => {
             const option = document.createElement('option');
-            option.value = obj.id;
-            option.textContent = `Sucursal ${obj.id} - ${obj.direccion}`;
+            option.value = s.id_sucursal;
+            option.textContent = `Sucursal ${s.id_sucursal} - ${s.direccion}`;
             select.appendChild(option);
         });
-    } catch (error) {
+        } catch (error) {
         console.error('Error cargando sucursales:', error);
+         }
     }
-}
 
 async function cargarCartelera() {
     const sucursalId = document.getElementById('sucursal').value;
