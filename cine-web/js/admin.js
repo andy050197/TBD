@@ -7,12 +7,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     await cargarGeneros();
     await cargarListaPeliculas();
     
-    // Eventos de reportes
     document.getElementById('btn-reporte1').addEventListener('click', reportePeliculaExitosa);
     document.getElementById('btn-reporte2').addEventListener('click', reporteClienteFrecuente);
     document.getElementById('btn-reporte3').addEventListener('click', reporteTurnosCajero);
-    
-    // Evento de agregar película
     document.getElementById('btn-agregar-pelicula').addEventListener('click', agregarPelicula);
 });
 
@@ -20,88 +17,72 @@ document.addEventListener('DOMContentLoaded', async () => {
 // 1. GESTIÓN DE PELÍCULAS (CRUD)
 // ============================================
 
-// Cargar géneros para el select
 async function cargarGeneros() {
-    const { data, error } = await supabase
-        .from('genero')
-        .select('id_genero, nombregenero_')
-        .order('nombregenero_');
-    
-    if (error) {
+    try {
+        const data = await apiFetch('/peliculas/generos');
+        const select = document.getElementById('nuevo_genero');
+        while (select.options.length > 1) select.remove(1);
+        data.forEach(genero => {
+            const option = document.createElement('option');
+            option.value = genero.id_genero;
+            option.textContent = genero.nombregenero;
+            select.appendChild(option);
+        });
+    } catch (error) {
         console.error('Error cargando géneros:', error);
-        return;
     }
-    
-    const select = document.getElementById('nuevo_genero');
-    data.forEach(genero => {
-        const option = document.createElement('option');
-        option.value = genero.id_genero;
-        option.textContent = genero.nombregenero_;
-        select.appendChild(option);
-    });
 }
 
-// Cargar lista de películas existentes
 async function cargarListaPeliculas() {
     const container = document.getElementById('lista-peliculas-container');
     container.innerHTML = '<div class="loading">⏳ Cargando películas...</div>';
-    
-    const { data, error } = await supabase
-        .from('pelicula')
-        .select('id_pelicula, tituloesp, tituloorig, poster_url, anioproduccion, duracionhoras, duracionmin')
-        .order('tituloesp');
-    
-    if (error) {
-        container.innerHTML = '<p class="alert-error">❌ Error cargando películas</p>';
-        return;
-    }
-    
-    if (!data || data.length === 0) {
-        container.innerHTML = '<p class="alert-info">📋 No hay películas registradas.</p>';
-        return;
-    }
-    
-    let html = `
-        <div class="table-responsive">
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Título</th>
-                        <th>Año</th>
-                        <th>Duración</th>
-                        <th>Póster</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-    `;
-    
-    data.forEach(pelicula => {
-        const posterPreview = pelicula.poster_url 
-            ? `<img src="${pelicula.poster_url}" style="width: 50px; height: 70px; object-fit: cover; border-radius: 4px;" onerror="this.src='https://placehold.co/50x70/1F3A4D/white?text=❌'">`
-            : `<div style="width: 50px; height: 70px; background: var(--fondo-secundario); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">🎬</div>`;
-        
-        html += `
-            <tr>
-                <td data-label="ID">${pelicula.id_pelicula}</td>
-                <td data-label="Título"><strong>${pelicula.tituloesp}</strong><br><small>${pelicula.tituloorig || ''}</small></td>
-                <td data-label="Año">${pelicula.anioproduccion}</td>
-                <td data-label="Duración">${pelicula.duracionhoras || 0}h ${pelicula.duracionmin || 0}m</td>
-                <td data-label="Póster">${posterPreview}</td>
-                <td data-label="Acciones" style="display: flex; gap: 5px; flex-wrap: wrap;">
-                    <button class="btn btn-peligro" style="padding: 5px 10px; font-size: 0.8rem;" onclick="eliminarPelicula(${pelicula.id_pelicula})">🗑️ Eliminar</button>
-                    <button class="btn btn-secundario" style="padding: 5px 10px; font-size: 0.8rem;" onclick="editarPelicula(${pelicula.id_pelicula})">✏️ Editar</button>
-                </td>
-            </tr>
+
+    try {
+        const data = await apiFetch('/peliculas');
+        if (!data || data.length === 0) {
+            container.innerHTML = '<p class="alert-info">📋 No hay películas registradas.</p>';
+            return;
+        }
+        let html = `
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Título</th>
+                            <th>Año</th>
+                            <th>Duración</th>
+                            <th>Póster</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
         `;
-    });
-    
-    html += '</tbody></table></div>';
-    container.innerHTML = html;
+        data.forEach(pelicula => {
+            const posterPreview = pelicula.poster_url 
+                ? `<img src="${pelicula.poster_url}" style="width: 50px; height: 70px; object-fit: cover; border-radius: 4px;" onerror="this.src='https://placehold.co/50x70/1F3A4D/white?text=❌'">`
+                : `<div style="width: 50px; height: 70px; background: var(--fondo-secundario); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">🎬</div>`;
+            html += `
+                <tr>
+                    <td data-label="ID">${pelicula.id_pelicula}</td>
+                    <td data-label="Título"><strong>${pelicula.tituloesp}</strong><br><small>${pelicula.tituloorig || ''}</small></td>
+                    <td data-label="Año">${pelicula.anioproduccion}</td>
+                    <td data-label="Duración">${pelicula.duracionhoras || 0}h ${pelicula.duracionmin || 0}m</td>
+                    <td data-label="Póster">${posterPreview}</td>
+                    <td data-label="Acciones" style="display: flex; gap: 5px; flex-wrap: wrap;">
+                        <button class="btn btn-peligro" style="padding: 5px 10px; font-size: 0.8rem;" onclick="eliminarPelicula(${pelicula.id_pelicula})">🗑️ Eliminar</button>
+                        <button class="btn btn-secundario" style="padding: 5px 10px; font-size: 0.8rem;" onclick="editarPelicula(${pelicula.id_pelicula})">✏️ Editar</button>
+                    </td>
+                </tr>
+            `;
+        });
+        html += '</tbody></table></div>';
+        container.innerHTML = html;
+    } catch (error) {
+        container.innerHTML = `<p class="alert-error">❌ Error cargando películas: ${error.message}</p>`;
+    }
 }
 
-// Agregar nueva película
 async function agregarPelicula() {
     const tituloesp = document.getElementById('nuevo_titulo').value.trim();
     const tituloorig = document.getElementById('nuevo_titulo_orig').value.trim();
@@ -112,18 +93,16 @@ async function agregarPelicula() {
     const id_genero = document.getElementById('nuevo_genero').value;
     const calificacion = document.getElementById('nuevo_calificacion').value;
     let poster_url = document.getElementById('nuevo_url').value.trim();
-    
-    // Validaciones
+
     if (!tituloesp || !tituloorig || !idiomaorig || !anioproduccion || !duracionhoras || !duracionmin || !id_genero) {
         mostrarAlerta('alerta-pelicula', 'Completa todos los campos obligatorios (*)', 'error');
         return;
     }
-    
-    // Si no hay URL de imagen, generar placeholder
+
     if (!poster_url) {
         poster_url = `https://placehold.co/300x450/1F3A4D/white?text=${encodeURIComponent(tituloesp)}`;
     }
-    
+
     const nuevaPelicula = {
         tituloesp,
         tituloorig,
@@ -136,194 +115,99 @@ async function agregarPelicula() {
         calificacion,
         fechaestreno: new Date().toISOString().split('T')[0],
         id_genero: parseInt(id_genero),
-        poster_url: poster_url
+        poster_url
     };
-    
-    const { data, error } = await supabase
-        .from('pelicula')
-        .insert([nuevaPelicula])
-        .select();
-    
-    if (error) {
-        mostrarAlerta('alerta-pelicula', '❌ Error al agregar película: ' + error.message, 'error');
-        return;
+
+    try {
+        await apiFetch('/peliculas', {
+            method: 'POST',
+            body: JSON.stringify(nuevaPelicula)
+        });
+        mostrarAlerta('alerta-pelicula', `✅ Película "${tituloesp}" agregada exitosamente`, 'exito');
+        document.getElementById('nuevo_titulo').value = '';
+        document.getElementById('nuevo_titulo_orig').value = '';
+        document.getElementById('nuevo_idioma').value = '';
+        document.getElementById('nuevo_anio').value = '';
+        document.getElementById('nuevo_duracion_h').value = '';
+        document.getElementById('nuevo_duracion_m').value = '';
+        document.getElementById('nuevo_genero').value = '';
+        document.getElementById('nuevo_url').value = '';
+        document.getElementById('nuevo_calificacion').value = 'ATP';
+        await cargarListaPeliculas();
+    } catch (error) {
+        mostrarAlerta('alerta-pelicula', `❌ Error al agregar película: ${error.message}`, 'error');
     }
-    
-    mostrarAlerta('alerta-pelicula', `✅ Película "${tituloesp}" agregada exitosamente`, 'exito');
-    
-    // Limpiar formulario
-    document.getElementById('nuevo_titulo').value = '';
-    document.getElementById('nuevo_titulo_orig').value = '';
-    document.getElementById('nuevo_idioma').value = '';
-    document.getElementById('nuevo_anio').value = '';
-    document.getElementById('nuevo_duracion_h').value = '';
-    document.getElementById('nuevo_duracion_m').value = '';
-    document.getElementById('nuevo_genero').value = '';
-    document.getElementById('nuevo_url').value = '';
-    document.getElementById('nuevo_calificacion').value = 'ATP';
-    
-    // Recargar lista
-    await cargarListaPeliculas();
 }
 
-// Eliminar película
 async function eliminarPelicula(id_pelicula) {
-    if (!confirm('¿Estás seguro de eliminar esta película? Esta acción no se puede deshacer.')) {
-        return;
+    if (!confirm('¿Estás seguro de eliminar esta película?')) return;
+    try {
+        await apiFetch(`/peliculas/${id_pelicula}`, { method: 'DELETE' });
+        mostrarAlerta('alerta-pelicula', '✅ Película eliminada correctamente', 'exito');
+        await cargarListaPeliculas();
+    } catch (error) {
+        mostrarAlerta('alerta-pelicula', `❌ Error al eliminar: ${error.message}`, 'error');
     }
-    
-    const { error } = await supabase
-        .from('pelicula')
-        .delete()
-        .eq('id_pelicula', id_pelicula);
-    
-    if (error) {
-        mostrarAlerta('alerta-pelicula', '❌ Error al eliminar película: ' + error.message, 'error');
-        return;
-    }
-    
-    mostrarAlerta('alerta-pelicula', '✅ Película eliminada correctamente', 'exito');
-    await cargarListaPeliculas();
 }
 
-// Editar película (muestra un prompt para cambiar la URL de la imagen)
 async function editarPelicula(id_pelicula) {
-    // Primero obtener datos actuales
-    const { data, error } = await supabase
-        .from('pelicula')
-        .select('tituloesp, poster_url')
-        .eq('id_pelicula', id_pelicula)
-        .single();
-    
-    if (error) {
-        mostrarAlerta('alerta-pelicula', '❌ Error al obtener datos de la película', 'error');
-        return;
+    try {
+        const data = await apiFetch(`/peliculas/${id_pelicula}`);
+        const nuevaUrl = prompt(
+            `Editar póster de "${data.tituloesp}"\n\nURL actual: ${data.poster_url || 'Sin imagen'}\n\nIngresa la nueva URL:`,
+            data.poster_url || ''
+        );
+        if (nuevaUrl === null) return;
+        await apiFetch(`/peliculas/${id_pelicula}`, {
+            method: 'PUT',
+            body: JSON.stringify({ poster_url: nuevaUrl || null })
+        });
+        mostrarAlerta('alerta-pelicula', '✅ Imagen actualizada correctamente', 'exito');
+        await cargarListaPeliculas();
+    } catch (error) {
+        mostrarAlerta('alerta-pelicula', `❌ Error al actualizar: ${error.message}`, 'error');
     }
-    
-    const nuevaUrl = prompt(
-        `Editar póster de "${data.tituloesp}"\n\nURL actual: ${data.poster_url || 'Sin imagen'}\n\nIngresa la nueva URL de la imagen:`,
-        data.poster_url || ''
-    );
-    
-    if (nuevaUrl === null) return; // Canceló
-    
-    const { error: updateError } = await supabase
-        .from('pelicula')
-        .update({ poster_url: nuevaUrl || null })
-        .eq('id_pelicula', id_pelicula);
-    
-    if (updateError) {
-        mostrarAlerta('alerta-pelicula', '❌ Error al actualizar la imagen', 'error');
-        return;
-    }
-    
-    mostrarAlerta('alerta-pelicula', `✅ Imagen de "${data.tituloesp}" actualizada correctamente`, 'exito');
-    await cargarListaPeliculas();
 }
 
 // ============================================
-// 2. CAJEROS PARA REPORTE 3
+// 2. CAJEROS
 // ============================================
 
 async function cargarCajeros() {
-    const { data, error } = await supabase
-        .from('cajero')
-        .select('id_cajero, nombres, apellidos')
-        .order('nombres');
-    
-    if (error) {
+    try {
+        const data = await apiFetch('/cajeros');
+        const select = document.getElementById('cajero_id');
+        while (select.options.length > 1) select.remove(1);
+        data.forEach(cajero => {
+            const option = document.createElement('option');
+            option.value = cajero.id_cajero;
+            option.textContent = `${cajero.nombres} ${cajero.apellidos}`;
+            select.appendChild(option);
+        });
+    } catch (error) {
         console.error('Error cargando cajeros:', error);
-        return;
     }
-    
-    const select = document.getElementById('cajero_id');
-    data.forEach(cajero => {
-        const option = document.createElement('option');
-        option.value = cajero.id_cajero;
-        option.textContent = `${cajero.nombres} ${cajero.apellidos}`;
-        select.appendChild(option);
-    });
 }
 
 // ============================================
-// 3. REPORTE 1: PELÍCULA MÁS EXITOSA
+// 3. REPORTES
 // ============================================
 
 async function reportePeliculaExitosa() {
     const mes = document.getElementById('mes').value;
     const anio = document.getElementById('anio').value;
     const container = document.getElementById('reporte1-container');
-    
     container.innerHTML = '<div class="loading">⏳ Generando reporte...</div>';
-    
+
     try {
-        const { data, error } = await supabase
-            .from('entrada')
-            .select(`
-                id_entrada,
-                funcion: id_funcion (
-                    id_funcion,
-                    fecha,
-                    sala: id_sala (
-                        id_sala,
-                        nombresala,
-                        sucursal: id_sucursal (
-                            id_sucursal,
-                            nombre
-                        )
-                    ),
-                    pelicula: id_pelicula (
-                        id_pelicula,
-                        tituloesp,
-                        duracionhoras,
-                        duracionmin,
-                        genero: id_genero (
-                            nombregenero_
-                        )
-                    )
-                ),
-                factura: id_factura (
-                    fecha_hora
-                )
-            `)
-            .gte('factura.fecha_hora', `${anio}-${mes.padStart(2, '0')}-01`)
-            .lte('factura.fecha_hora', `${anio}-${mes.padStart(2, '0')}-31`);
-        
-        if (error || !data || data.length === 0) {
+        const data = await apiFetch(`/reportes/pelicula-exitosa?mes=${mes}&anio=${anio}`);
+        if (!data || data.length === 0) {
             container.innerHTML = '<p class="alert-info">📊 No hay ventas registradas para este período.</p>';
             return;
         }
-        
-        // Agrupar por sucursal, sala, película
-        const grupos = {};
-        data.forEach(entrada => {
-            const funcion = entrada.funcion;
-            if (!funcion) return;
-            const sala = funcion.sala;
-            if (!sala) return;
-            const pelicula = funcion.pelicula;
-            if (!pelicula) return;
-            const sucursal = sala.sucursal;
-            
-            const key = `${sucursal?.id_sucursal || '0'}|${sala.id_sala}|${pelicula.id_pelicula}`;
-            if (!grupos[key]) {
-                grupos[key] = {
-                    sucursal: sucursal?.nombre || 'Sucursal ' + (sucursal?.id_sucursal || ''),
-                    sala: sala.nombresala || 'Sala ' + sala.id_sala,
-                    pelicula: pelicula.tituloesp || 'Sin título',
-                    genero: pelicula.genero?.nombregenero_ || 'N/A',
-                    duracion: `${pelicula.duracionhoras || 0}h ${pelicula.duracionmin || 0}m`,
-                    total: 0
-                };
-            }
-            grupos[key].total++;
-        });
-        
-        const resultados = Object.values(grupos).sort((a, b) => b.total - a.total);
-        
         let html = `
             <div class="card">
-                <h4>📊 Top 10 películas más vistas (${mes}/${anio})</h4>
+                <h4>📊 Películas más vistas (${mes}/${anio})</h4>
                 <div class="table-responsive">
                     <table>
                         <thead>
@@ -339,98 +223,39 @@ async function reportePeliculaExitosa() {
                         </thead>
                         <tbody>
         `;
-        
-        resultados.slice(0, 10).forEach((item, index) => {
+        data.forEach((item, index) => {
             html += `
                 <tr>
                     <td data-label="#">${index + 1}</td>
-                    <td data-label="Sucursal">${item.sucursal}</td>
-                    <td data-label="Sala">${item.sala}</td>
-                    <td data-label="Película"><strong>${item.pelicula}</strong></td>
+                    <td data-label="Sucursal">${item.sucursal_nombre}</td>
+                    <td data-label="Sala">${item.nombresala}</td>
+                    <td data-label="Película"><strong>${item.tituloesp}</strong></td>
                     <td data-label="Género">${item.genero}</td>
                     <td data-label="Duración">${item.duracion}</td>
-                    <td data-label="Entradas">${item.total}</td>
+                    <td data-label="Entradas">${item.total_entradas}</td>
                 </tr>
             `;
         });
-        
         html += '</tbody></table></div></div>';
         container.innerHTML = html;
-        
-    } catch (e) {
-        container.innerHTML = '<p class="alert-error">❌ Error generando reporte</p>';
-        console.error(e);
+    } catch (error) {
+        container.innerHTML = `<p class="alert-error">❌ Error: ${error.message}</p>`;
     }
 }
-
-// ============================================
-// 4. REPORTE 2: CLIENTE MÁS FRECUENTE
-// ============================================
 
 async function reporteClienteFrecuente() {
     const trimestre = document.getElementById('trimestre').value;
     const anio = document.getElementById('anio2').value;
     const container = document.getElementById('reporte2-container');
-    
     container.innerHTML = '<div class="loading">⏳ Generando reporte...</div>';
-    
+
     try {
-        const mesInicio = (trimestre - 1) * 3 + 1;
-        const mesFin = trimestre * 3;
-        const fechaInicio = `${anio}-${String(mesInicio).padStart(2, '0')}-01`;
-        const ultimoDia = new Date(anio, mesFin, 0).getDate();
-        const fechaFin = `${anio}-${String(mesFin).padStart(2, '0')}-${ultimoDia}`;
-        
-        const { data, error } = await supabase
-            .from('entrada')
-            .select(`
-                id_entrada,
-                factura: id_factura (
-                    id_cliente,
-                    cliente: id_cliente (
-                        id_cliente,
-                        nombre,
-                        apellido,
-                        ci
-                    )
-                )
-            `)
-            .gte('fechacompra', fechaInicio)
-            .lte('fechacompra', fechaFin);
-        
-        if (error || !data || data.length === 0) {
+        const data = await apiFetch(`/reportes/cliente-frecuente?trimestre=${trimestre}&anio=${anio}`);
+        if (!data || data.length === 0) {
             container.innerHTML = '<p class="alert-info">📊 No hay compras registradas en este período.</p>';
             return;
         }
-        
-        // Agrupar por cliente
-        const clientes = {};
-        data.forEach(entrada => {
-            const cliente = entrada.factura?.cliente;
-            if (cliente) {
-                const id = cliente.id_cliente;
-                if (!clientes[id]) {
-                    clientes[id] = {
-                        id_cliente: id,
-                        nombre: cliente.nombre || 'Anónimo',
-                        apellido: cliente.apellido || '',
-                        ci: cliente.ci || 'N/A',
-                        total_visitas: 0
-                    };
-                }
-                clientes[id].total_visitas++;
-            }
-        });
-        
-        const resultados = Object.values(clientes).sort((a, b) => b.total_visitas - a.total_visitas);
-        
-        if (resultados.length === 0) {
-            container.innerHTML = '<p class="alert-info">📊 No se encontraron clientes.</p>';
-            return;
-        }
-        
-        const topCliente = resultados[0];
-        
+        const topCliente = data[0];
         let html = `
             <div class="card" style="background-color: var(--fondo-secundario);">
                 <h3>🏆 Cliente más frecuente</h3>
@@ -446,8 +271,7 @@ async function reporteClienteFrecuente() {
                     </thead>
                     <tbody>
         `;
-        
-        resultados.slice(0, 10).forEach((cliente, index) => {
+        data.slice(0, 10).forEach((cliente, index) => {
             html += `
                 <tr>
                     <td data-label="#">${index + 1}</td>
@@ -457,66 +281,32 @@ async function reporteClienteFrecuente() {
                 </tr>
             `;
         });
-        
         html += '</tbody></table></div>';
         container.innerHTML = html;
-        
-    } catch (e) {
-        container.innerHTML = '<p class="alert-error">❌ Error generando reporte</p>';
-        console.error(e);
+    } catch (error) {
+        container.innerHTML = `<p class="alert-error">❌ Error: ${error.message}</p>`;
     }
 }
-
-// ============================================
-// 5. REPORTE 3: TURNOS DE CAJERO
-// ============================================
 
 async function reporteTurnosCajero() {
     const idCajero = document.getElementById('cajero_id').value;
     const mes = document.getElementById('mes3').value;
     const anio = document.getElementById('anio3').value;
     const container = document.getElementById('reporte3-container');
-    
+
     if (!idCajero) {
         mostrarAlerta('alerta-container', 'Selecciona un cajero', 'error');
         return;
     }
-    
+
     container.innerHTML = '<div class="loading">⏳ Generando reporte...</div>';
-    
+
     try {
-        const fechaInicio = `${anio}-${String(mes).padStart(2, '0')}-01`;
-        const ultimoDia = new Date(anio, mes, 0).getDate();
-        const fechaFin = `${anio}-${String(mes).padStart(2, '0')}-${ultimoDia}`;
-        
-        const { data, error } = await supabase
-            .from('asignacion_cajero_turno')
-            .select(`
-                id_asignacion,
-                fechaini,
-                fechafin,
-                registro,
-                turno: id_turno (
-                    id_turno,
-                    nombreturno,
-                    horainicio,
-                    horafin
-                )
-            `)
-            .eq('id_cajero', parseInt(idCajero))
-            .lte('fechaini', fechaFin)
-            .gte('fechafin', fechaInicio);
-        
-        if (error) {
-            container.innerHTML = '<p class="alert-error">❌ Error generando reporte</p>';
-            return;
-        }
-        
+        const data = await apiFetch(`/reportes/turnos-cajero?id_cajero=${idCajero}&mes=${mes}&anio=${anio}`);
         if (!data || data.length === 0) {
             container.innerHTML = '<p class="alert-info">📊 No hay asignaciones de turno para este cajero en el período seleccionado.</p>';
             return;
         }
-        
         let html = `
             <div class="table-responsive">
                 <table>
@@ -531,7 +321,6 @@ async function reporteTurnosCajero() {
                     </thead>
                     <tbody>
         `;
-        
         data.forEach(asignacion => {
             const turno = asignacion.turno;
             html += `
@@ -544,12 +333,9 @@ async function reporteTurnosCajero() {
                 </tr>
             `;
         });
-        
         html += '</tbody></table></div>';
         container.innerHTML = html;
-        
-    } catch (e) {
-        container.innerHTML = '<p class="alert-error">❌ Error generando reporte</p>';
-        console.error(e);
+    } catch (error) {
+        container.innerHTML = `<p class="alert-error">❌ Error: ${error.message}</p>`;
     }
 }

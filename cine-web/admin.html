@@ -5,10 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CineCbba - Administración</title>
     <link rel="stylesheet" href="css/styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/supabase-client.js"></script>
-    <script src="js/utils.js"></script>
-    <script src="js/admin.js" defer></script>
 </head>
 <body>
     <header class="header">
@@ -31,13 +27,10 @@
         
         <div id="alerta-container"></div>
         
-        <!-- ============================================
-        SECCIÓN 1: GESTIÓN DE PELÍCULAS (CRUD)
-        ============================================ -->
+        <!-- Sección 1: Gestión de Películas -->
         <div class="reporte-card">
             <h3>🎬 Gestión de Películas</h3>
             
-            <!-- Formulario para agregar -->
             <div class="card" style="margin-bottom: 20px;">
                 <h4>➕ Agregar nueva película</h4>
                 <div id="alerta-pelicula"></div>
@@ -47,39 +40,32 @@
                         <label for="nuevo_titulo">Título en español *</label>
                         <input type="text" id="nuevo_titulo" placeholder="Ej: Dune: Parte 2" required>
                     </div>
-                    
                     <div class="form-group">
                         <label for="nuevo_titulo_orig">Título original *</label>
                         <input type="text" id="nuevo_titulo_orig" placeholder="Ej: Dune: Part Two" required>
                     </div>
-                    
                     <div class="form-group">
                         <label for="nuevo_idioma">Idioma original *</label>
                         <input type="text" id="nuevo_idioma" placeholder="Ej: Inglés" required>
                     </div>
-                    
                     <div class="form-group">
                         <label for="nuevo_anio">Año de producción *</label>
                         <input type="number" id="nuevo_anio" placeholder="2024" required>
                     </div>
-                    
                     <div class="form-group">
                         <label for="nuevo_duracion_h">Duración (horas) *</label>
                         <input type="number" id="nuevo_duracion_h" placeholder="2" required>
                     </div>
-                    
                     <div class="form-group">
                         <label for="nuevo_duracion_m">Duración (minutos) *</label>
                         <input type="number" id="nuevo_duracion_m" placeholder="30" required>
                     </div>
-                    
                     <div class="form-group">
                         <label for="nuevo_genero">Género *</label>
                         <select id="nuevo_genero">
                             <option value="">Selecciona un género</option>
                         </select>
                     </div>
-                    
                     <div class="form-group">
                         <label for="nuevo_calificacion">Calificación *</label>
                         <select id="nuevo_calificacion">
@@ -89,18 +75,16 @@
                             <option value="+18">+18 años</option>
                         </select>
                     </div>
-                    
                     <div class="form-group" style="grid-column: span 2;">
                         <label for="nuevo_url">URL del póster (imagen)</label>
                         <input type="url" id="nuevo_url" placeholder="https://image.tmdb.org/t/p/w500/...">
-                        <small style="color: var(--texto-claro);">Busca la imagen en <a href="https://www.themoviedb.org" target="_blank">TMDB</a> y copia el enlace de la imagen. Si no pones nada, se usará un placeholder.</small>
+                        <small style="color: var(--texto-claro);">Busca la imagen en <a href="https://www.themoviedb.org" target="_blank">TMDB</a> y copia el enlace. Si no pones nada, se usará un placeholder.</small>
                     </div>
                 </div>
                 
                 <button id="btn-agregar-pelicula" class="btn btn-exito">➕ Agregar película</button>
             </div>
             
-            <!-- Lista de películas -->
             <div class="card">
                 <h4>📋 Películas existentes</h4>
                 <div id="lista-peliculas-container">
@@ -109,9 +93,7 @@
             </div>
         </div>
         
-        <!-- ============================================
-        SECCIÓN 2: REPORTE 1 - PELÍCULA MÁS EXITOSA
-        ============================================ -->
+        <!-- Sección 2: Reporte 1 -->
         <div class="reporte-card">
             <h3>🏆 Película más exitosa por sucursal y sala</h3>
             <div class="filtros-reporte">
@@ -141,9 +123,7 @@
             </div>
         </div>
         
-        <!-- ============================================
-        SECCIÓN 3: REPORTE 2 - CLIENTE MÁS FRECUENTE
-        ============================================ -->
+        <!-- Sección 3: Reporte 2 -->
         <div class="reporte-card">
             <h3>⭐ Cliente que más veces fue al cine</h3>
             <div class="filtros-reporte">
@@ -171,9 +151,7 @@
             </div>
         </div>
         
-        <!-- ============================================
-        SECCIÓN 4: REPORTE 3 - TURNOS DE CAJERO
-        ============================================ -->
+        <!-- Sección 4: Reporte 3 -->
         <div class="reporte-card">
             <h3>👨‍💼 Turnos trabajados por cajero</h3>
             <div class="filtros-reporte">
@@ -215,5 +193,8 @@
             <p>&copy; 2026 CineCbba - Todos los derechos reservados</p>
         </div>
     </footer>
+
+    <script src="js/utils.js"></script>
+    <script src="js/admin.js"></script>
 </body>
 </html>

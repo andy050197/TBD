@@ -5,10 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CineCbba - Comprar Entradas</title>
     <link rel="stylesheet" href="css/styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/supabase-client.js"></script>
-    <script src="js/utils.js"></script>
-    <script src="js/compra.js" defer></script>
 </head>
 <body>
     <header class="header">
@@ -30,13 +26,11 @@
         <h1> Comprar Entradas</h1>
         <div id="alerta-container"></div>
 
-        <!-- Información de la función -->
         <div id="info-funcion" class="card">
             <h3>Información de la Función</h3>
             <p>Cargando datos de la función...</p>
         </div>
 
-        <!-- Datos del cliente -->
         <div class="card">
             <h3> Datos del Cliente</h3>
             <div class="form-group">
@@ -61,17 +55,15 @@
             </div>
         </div>
 
-        <!-- Selección de asientos -->
         <div class="card">
             <h3> Selecciona tu Asiento</h3>
             <div id="mapa-asientos-container">
                 <div class="loading">⏳ Cargando mapa de asientos...</div>
             </div>
             
-            <!-- Leyenda -->
             <div class="leyenda">
                 <div class="leyenda-item">
-                    <div class="leyenda-color" style="background-color: var(--primario);"></div>
+                    <div class="leyenda-color" style="background-color: var(--secundario);"></div>
                     <span>Disponible</span>
                 </div>
                 <div class="leyenda-item">
@@ -90,7 +82,6 @@
             </div>
         </div>
 
-        <!-- Resumen de compra -->
         <div class="card">
             <h3> Resumen de Compra</h3>
             <p><strong>Precio unitario:</strong> <span id="precio-unitario">-</span></p>
@@ -105,5 +96,8 @@
             <p>&copy; 2026 CineCbba - Todos los derechos reservados</p>
         </div>
     </footer>
+
+    <script src="js/utils.js"></script>
+    <script src="js/compra.js"></script>
 </body>
 </html>
