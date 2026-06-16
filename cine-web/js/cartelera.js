@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 async function cargarSucursales() {
     const { data, error } = await supabase
         .from('sucursal')
-        .select('id_sucursal, nombre, direccion');
+        .select('id_sucursal, direccion');
     
     if (error) {
         console.error('Error cargando sucursales:', error);
@@ -28,7 +28,7 @@ async function cargarSucursales() {
         data.forEach(sucursal => {
             const option = document.createElement('option');
             option.value = sucursal.id_sucursal;
-            option.textContent = `${sucursal.nombre || 'Sucursal'} - ${sucursal.direccion}`;
+            option.textContent = `Sucursal ${sucursal.id_sucursal} - ${sucursal.direccion}`;
             select.appendChild(option);
         });
     }
@@ -40,10 +40,8 @@ async function cargarCartelera() {
     const container = document.getElementById('cartelera-container');
     container.innerHTML = '<div class="loading">⏳ Cargando funciones...</div>';
     
-    // Obtener fecha actual en formato YYYY-MM-DD
     const hoy = new Date().toISOString().split('T')[0];
     
-    // Consulta para obtener funciones con detalles de película y sala
     let query = supabase
         .from('funcion')
         .select(`

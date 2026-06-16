@@ -31,9 +31,89 @@
         
         <div id="alerta-container"></div>
         
-        <!-- Reporte 1: Película más exitosa -->
+        <!-- ============================================
+        SECCIÓN 1: GESTIÓN DE PELÍCULAS (CRUD)
+        ============================================ -->
         <div class="reporte-card">
-            <h3>🏆 Película más exitosa por sucursal y sala (Marzo 2026)</h3>
+            <h3>🎬 Gestión de Películas</h3>
+            
+            <!-- Formulario para agregar -->
+            <div class="card" style="margin-bottom: 20px;">
+                <h4>➕ Agregar nueva película</h4>
+                <div id="alerta-pelicula"></div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label for="nuevo_titulo">Título en español *</label>
+                        <input type="text" id="nuevo_titulo" placeholder="Ej: Dune: Parte 2" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="nuevo_titulo_orig">Título original *</label>
+                        <input type="text" id="nuevo_titulo_orig" placeholder="Ej: Dune: Part Two" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="nuevo_idioma">Idioma original *</label>
+                        <input type="text" id="nuevo_idioma" placeholder="Ej: Inglés" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="nuevo_anio">Año de producción *</label>
+                        <input type="number" id="nuevo_anio" placeholder="2024" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="nuevo_duracion_h">Duración (horas) *</label>
+                        <input type="number" id="nuevo_duracion_h" placeholder="2" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="nuevo_duracion_m">Duración (minutos) *</label>
+                        <input type="number" id="nuevo_duracion_m" placeholder="30" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="nuevo_genero">Género *</label>
+                        <select id="nuevo_genero">
+                            <option value="">Selecciona un género</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="nuevo_calificacion">Calificación *</label>
+                        <select id="nuevo_calificacion">
+                            <option value="ATP">ATP (Apta todo público)</option>
+                            <option value="+9">+9 años</option>
+                            <option value="+15">+15 años</option>
+                            <option value="+18">+18 años</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label for="nuevo_url">URL del póster (imagen)</label>
+                        <input type="url" id="nuevo_url" placeholder="https://image.tmdb.org/t/p/w500/...">
+                        <small style="color: var(--texto-claro);">Busca la imagen en <a href="https://www.themoviedb.org" target="_blank">TMDB</a> y copia el enlace de la imagen. Si no pones nada, se usará un placeholder.</small>
+                    </div>
+                </div>
+                
+                <button id="btn-agregar-pelicula" class="btn btn-exito">➕ Agregar película</button>
+            </div>
+            
+            <!-- Lista de películas -->
+            <div class="card">
+                <h4>📋 Películas existentes</h4>
+                <div id="lista-peliculas-container">
+                    <div class="loading">⏳ Cargando películas...</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ============================================
+        SECCIÓN 2: REPORTE 1 - PELÍCULA MÁS EXITOSA
+        ============================================ -->
+        <div class="reporte-card">
+            <h3>🏆 Película más exitosa por sucursal y sala</h3>
             <div class="filtros-reporte">
                 <div class="form-group">
                     <label for="mes">Mes</label>
@@ -61,9 +141,11 @@
             </div>
         </div>
         
-        <!-- Reporte 2: Cliente más frecuente -->
+        <!-- ============================================
+        SECCIÓN 3: REPORTE 2 - CLIENTE MÁS FRECUENTE
+        ============================================ -->
         <div class="reporte-card">
-            <h3>⭐ Cliente que más veces fue al cine (Trimestre)</h3>
+            <h3>⭐ Cliente que más veces fue al cine</h3>
             <div class="filtros-reporte">
                 <div class="form-group">
                     <label for="trimestre">Trimestre</label>
@@ -89,7 +171,9 @@
             </div>
         </div>
         
-        <!-- Reporte 3: Turnos trabajados por cajero -->
+        <!-- ============================================
+        SECCIÓN 4: REPORTE 3 - TURNOS DE CAJERO
+        ============================================ -->
         <div class="reporte-card">
             <h3>👨‍💼 Turnos trabajados por cajero</h3>
             <div class="filtros-reporte">

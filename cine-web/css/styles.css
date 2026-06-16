@@ -2,13 +2,13 @@
    PALETA DE COLORES
    ============================================= */
 :root {
-    --fondo-principal: #F4EFE6;      /* Beige arena suave */
-    --fondo-secundario: #E7E1D7;     /* Gris cálido claro */
-    --primario: #1F3A4D;             /* Azul petróleo (botones) */
-    --secundario: #C26E5A;           /* Terracota suave */
-    --texto-principal: #2E2E2E;      /* Gris profundo */
-    --texto-claro: #5a5a5a;
-    --borde: #d1c9bc;
+    --fondo-principal: #0D0D0D;      /* Negro */
+    --fondo-secundario: #1A1A1A;     /* Negro suave */
+    --primario: #E31E24;             /* Rojo (botones) */
+    --secundario: #1E3A8A;           /* Azul */
+    --texto-principal: #FFFFFF;      /* Blanco */
+    --texto-claro: #5DADE2;          /* Azul bajito (claro) */
+    --borde: #2a2a2a;
     --exito: #2c7a4d;
     --error: #c0392b;
     --warning: #e67e22;
@@ -41,10 +41,10 @@ body {
    HEADER Y NAVEGACIÓN
    ============================================= */
 .header {
-    background-color: var(--primario);
-    color: white;
+    background-color: var(--fondo-secundario);
+    color: var(--texto-principal);
     padding: 1rem 0;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
     position: sticky;
     top: 0;
     z-index: 100;
@@ -61,14 +61,15 @@ body {
 .logo {
     font-size: 1.5rem;
     font-weight: bold;
+    color: var(--texto-principal);
 }
 
 .logo span {
-    color: var(--secundario);
+    color: var(--primario);
 }
 
 .logo a {
-    color: white;
+    color: var(--texto-principal);
     text-decoration: none;
 }
 
@@ -79,7 +80,7 @@ body {
 }
 
 .nav a {
-    color: white;
+    color: var(--texto-principal);
     text-decoration: none;
     padding: 0.5rem 1rem;
     border-radius: 5px;
@@ -88,8 +89,8 @@ body {
 }
 
 .nav a:hover {
-    background-color: var(--secundario);
-    color: white;
+    background-color: var(--primario);
+    color: var(--texto-principal);
 }
 
 /* Menú hamburguesa para móviles */
@@ -97,7 +98,7 @@ body {
     display: none;
     background: none;
     border: none;
-    color: white;
+    color: var(--texto-principal);
     font-size: 1.8rem;
     cursor: pointer;
 }
@@ -116,32 +117,33 @@ body {
     text-decoration: none;
     font-weight: 500;
     text-align: center;
+    color: var(--texto-principal);
 }
 
 .btn-primario {
     background-color: var(--primario);
-    color: white;
+    color: var(--texto-principal);
 }
 
 .btn-primario:hover {
-    background-color: #2c5a6e;
+    background-color: #b8181d;
     transform: translateY(-2px);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.4);
 }
 
 .btn-secundario {
     background-color: var(--secundario);
-    color: white;
+    color: var(--texto-principal);
 }
 
 .btn-secundario:hover {
-    background-color: #a85a48;
+    background-color: #16306e;
     transform: translateY(-2px);
 }
 
 .btn-exito {
     background-color: var(--exito);
-    color: white;
+    color: var(--texto-principal);
 }
 
 .btn-exito:hover {
@@ -150,7 +152,7 @@ body {
 
 .btn-peligro {
     background-color: var(--error);
-    color: white;
+    color: var(--texto-principal);
 }
 
 .btn-peligro:hover {
@@ -161,22 +163,23 @@ body {
    TARJETAS
    ============================================= */
 .card {
-    background-color: white;
+    background-color: var(--fondo-secundario);
     border-radius: 12px;
     padding: 20px;
     margin-bottom: 20px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
     border: 1px solid var(--borde);
     transition: transform 0.2s;
+    color: var(--texto-principal);
 }
 
 .card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
 }
 
 .card h3 {
-    color: var(--primario);
+    color: var(--texto-principal);
     margin-bottom: 12px;
     font-size: 1.25rem;
 }
@@ -207,13 +210,14 @@ input, select, textarea {
     border-radius: 8px;
     font-size: 1rem;
     transition: all 0.3s;
-    background-color: white;
+    background-color: var(--fondo-secundario);
+    color: var(--texto-principal);
 }
 
 input:focus, select:focus, textarea:focus {
     outline: none;
     border-color: var(--primario);
-    box-shadow: 0 0 0 3px rgba(31, 58, 77, 0.1);
+    box-shadow: 0 0 0 3px rgba(227, 30, 36, 0.2);
 }
 
 /* =============================================
@@ -226,9 +230,10 @@ input:focus, select:focus, textarea:focus {
 table {
     width: 100%;
     border-collapse: collapse;
-    background-color: white;
+    background-color: var(--fondo-secundario);
     border-radius: 10px;
     overflow: hidden;
+    color: var(--texto-principal);
 }
 
 th, td {
@@ -239,12 +244,12 @@ th, td {
 
 th {
     background-color: var(--primario);
-    color: white;
+    color: var(--texto-principal);
     font-weight: 600;
 }
 
 tr:hover {
-    background-color: var(--fondo-secundario);
+    background-color: var(--fondo-principal);
 }
 
 /* =============================================
@@ -258,21 +263,21 @@ tr:hover {
 }
 
 .alert-exito {
-    background-color: #d4edda;
-    color: var(--exito);
-    border: 1px solid #c3e6cb;
+    background-color: #1e3d2a;
+    color: var(--texto-principal);
+    border: 1px solid var(--exito);
 }
 
 .alert-error {
-    background-color: #f8d7da;
-    color: var(--error);
-    border: 1px solid #f5c6cb;
+    background-color: #3d1e1e;
+    color: var(--texto-principal);
+    border: 1px solid var(--error);
 }
 
 .alert-info {
-    background-color: #d1ecf1;
-    color: #0c5460;
-    border: 1px solid #bee5eb;
+    background-color: #1e2c3d;
+    color: var(--texto-principal);
+    border: 1px solid var(--secundario);
 }
 
 .loading {
@@ -304,8 +309,8 @@ tr:hover {
 }
 
 .pantalla {
-    background: linear-gradient(0deg, #333, #555);
-    color: white;
+    background: linear-gradient(0deg, #000, #1a1a1a);
+    color: var(--texto-principal);
     text-align: center;
     padding: 12px;
     border-radius: 10px 10px 0 0;
@@ -325,30 +330,30 @@ tr:hover {
 .asiento {
     width: 40px;
     height: 40px;
-    background-color: var(--primario);
+    background-color: var(--secundario);
     border-radius: 8px 8px 4px 4px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: all 0.2s;
-    color: white;
+    color: var(--texto-principal);
     font-size: 12px;
     font-weight: bold;
 }
 
 .asiento:hover:not(.ocupado) {
-    background-color: var(--secundario);
+    background-color: var(--primario);
     transform: scale(1.05);
 }
 
 .asiento.seleccionado {
     background-color: var(--exito);
-    box-shadow: 0 0 0 2px white, 0 0 0 4px var(--exito);
+    box-shadow: 0 0 0 2px var(--texto-principal), 0 0 0 4px var(--exito);
 }
 
 .asiento.ocupado {
-    background-color: #999;
+    background-color: #555;
     cursor: not-allowed;
     opacity: 0.6;
 }
@@ -377,6 +382,7 @@ tr:hover {
     display: flex;
     align-items: center;
     gap: 8px;
+    color: var(--texto-principal);
 }
 
 .leyenda-color {
@@ -389,17 +395,18 @@ tr:hover {
    REPORTES
    ============================================= */
 .reporte-card {
-    background-color: white;
+    background-color: var(--fondo-secundario);
     border-radius: 12px;
     padding: 20px;
     margin-bottom: 30px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    color: var(--texto-principal);
 }
 
 .reporte-card h3 {
-    color: var(--primario);
+    color: var(--texto-principal);
     margin-bottom: 15px;
-    border-left: 4px solid var(--secundario);
+    border-left: 4px solid var(--primario);
     padding-left: 12px;
 }
 
@@ -421,8 +428,8 @@ tr:hover {
    FOOTER
    ============================================= */
 .footer {
-    background-color: var(--primario);
-    color: white;
+    background-color: var(--fondo-secundario);
+    color: var(--texto-principal);
     text-align: center;
     padding: 20px;
     margin-top: auto;
