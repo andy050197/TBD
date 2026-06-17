@@ -35,12 +35,12 @@ async function cargarGeneros() {
 
 async function cargarListaPeliculas() {
     const container = document.getElementById('lista-peliculas-container');
-    container.innerHTML = '<div class="loading">⏳ Cargando películas...</div>';
+    container.innerHTML = '<div class="loading"> Cargando películas...</div>';
 
     try {
         const data = await apiFetch('/peliculas');
         if (!data || data.length === 0) {
-            container.innerHTML = '<p class="alert-info">📋 No hay películas registradas.</p>';
+            container.innerHTML = '<p class="alert-info"> No hay películas registradas.</p>';
             return;
         }
         let html = `
@@ -79,7 +79,7 @@ async function cargarListaPeliculas() {
         html += '</tbody></table></div>';
         container.innerHTML = html;
     } catch (error) {
-        container.innerHTML = `<p class="alert-error">❌ Error cargando películas: ${error.message}</p>`;
+        container.innerHTML = `<p class="alert-error"> Error cargando películas: ${error.message}</p>`;
     }
 }
 
@@ -123,7 +123,7 @@ async function agregarPelicula() {
             method: 'POST',
             body: JSON.stringify(nuevaPelicula)
         });
-        mostrarAlerta('alerta-pelicula', `✅ Película "${tituloesp}" agregada exitosamente`, 'exito');
+        mostrarAlerta('alerta-pelicula', ` Película "${tituloesp}" agregada exitosamente`, 'exito');
         document.getElementById('nuevo_titulo').value = '';
         document.getElementById('nuevo_titulo_orig').value = '';
         document.getElementById('nuevo_idioma').value = '';
@@ -135,7 +135,7 @@ async function agregarPelicula() {
         document.getElementById('nuevo_calificacion').value = 'ATP';
         await cargarListaPeliculas();
     } catch (error) {
-        mostrarAlerta('alerta-pelicula', `❌ Error al agregar película: ${error.message}`, 'error');
+        mostrarAlerta('alerta-pelicula', ` Error al agregar película: ${error.message}`, 'error');
     }
 }
 
@@ -143,10 +143,10 @@ async function eliminarPelicula(id_pelicula) {
     if (!confirm('¿Estás seguro de eliminar esta película?')) return;
     try {
         await apiFetch(`/peliculas/${id_pelicula}`, { method: 'DELETE' });
-        mostrarAlerta('alerta-pelicula', '✅ Película eliminada correctamente', 'exito');
+        mostrarAlerta('alerta-pelicula', ' Película eliminada correctamente', 'exito');
         await cargarListaPeliculas();
     } catch (error) {
-        mostrarAlerta('alerta-pelicula', `❌ Error al eliminar: ${error.message}`, 'error');
+        mostrarAlerta('alerta-pelicula', ` Error al eliminar: ${error.message}`, 'error');
     }
 }
 
@@ -162,10 +162,10 @@ async function editarPelicula(id_pelicula) {
             method: 'PUT',
             body: JSON.stringify({ poster_url: nuevaUrl || null })
         });
-        mostrarAlerta('alerta-pelicula', '✅ Imagen actualizada correctamente', 'exito');
+        mostrarAlerta('alerta-pelicula', ' Imagen actualizada correctamente', 'exito');
         await cargarListaPeliculas();
     } catch (error) {
-        mostrarAlerta('alerta-pelicula', `❌ Error al actualizar: ${error.message}`, 'error');
+        mostrarAlerta('alerta-pelicula', ` Error al actualizar: ${error.message}`, 'error');
     }
 }
 
@@ -197,17 +197,17 @@ async function reportePeliculaExitosa() {
     const mes = document.getElementById('mes').value;
     const anio = document.getElementById('anio').value;
     const container = document.getElementById('reporte1-container');
-    container.innerHTML = '<div class="loading">⏳ Generando reporte...</div>';
+    container.innerHTML = '<div class="loading"> Generando reporte...</div>';
 
     try {
         const data = await apiFetch(`/reportes/pelicula-exitosa?mes=${mes}&anio=${anio}`);
         if (!data || data.length === 0) {
-            container.innerHTML = '<p class="alert-info">📊 No hay ventas registradas para este período.</p>';
+            container.innerHTML = '<p class="alert-info"> No hay ventas registradas para este período.</p>';
             return;
         }
         let html = `
             <div class="card">
-                <h4>📊 Películas más vistas (${mes}/${anio})</h4>
+                <h4> Películas más vistas (${mes}/${anio})</h4>
                 <div class="table-responsive">
                     <table>
                         <thead>
@@ -239,7 +239,7 @@ async function reportePeliculaExitosa() {
         html += '</tbody></table></div></div>';
         container.innerHTML = html;
     } catch (error) {
-        container.innerHTML = `<p class="alert-error">❌ Error: ${error.message}</p>`;
+        container.innerHTML = `<p class="alert-error"> Error: ${error.message}</p>`;
     }
 }
 
@@ -247,12 +247,12 @@ async function reporteClienteFrecuente() {
     const trimestre = document.getElementById('trimestre').value;
     const anio = document.getElementById('anio2').value;
     const container = document.getElementById('reporte2-container');
-    container.innerHTML = '<div class="loading">⏳ Generando reporte...</div>';
+    container.innerHTML = '<div class="loading"> Generando reporte...</div>';
 
     try {
         const data = await apiFetch(`/reportes/cliente-frecuente?trimestre=${trimestre}&anio=${anio}`);
         if (!data || data.length === 0) {
-            container.innerHTML = '<p class="alert-info">📊 No hay compras registradas en este período.</p>';
+            container.innerHTML = '<p class="alert-info"> No hay compras registradas en este período.</p>';
             return;
         }
         const topCliente = data[0];
@@ -263,7 +263,7 @@ async function reporteClienteFrecuente() {
                 <p><strong>CI:</strong> ${topCliente.ci}</p>
                 <p><strong>Total de visitas:</strong> ${topCliente.total_visitas}</p>
             </div>
-            <h4>📋 Top 10 clientes</h4>
+            <h4> Top 10 clientes</h4>
             <div class="table-responsive">
                 <table>
                     <thead>
@@ -284,7 +284,7 @@ async function reporteClienteFrecuente() {
         html += '</tbody></table></div>';
         container.innerHTML = html;
     } catch (error) {
-        container.innerHTML = `<p class="alert-error">❌ Error: ${error.message}</p>`;
+        container.innerHTML = `<p class="alert-error"> Error: ${error.message}</p>`;
     }
 }
 
@@ -299,12 +299,12 @@ async function reporteTurnosCajero() {
         return;
     }
 
-    container.innerHTML = '<div class="loading">⏳ Generando reporte...</div>';
+    container.innerHTML = '<div class="loading"> Generando reporte...</div>';
 
     try {
         const data = await apiFetch(`/reportes/turnos-cajero?id_cajero=${idCajero}&mes=${mes}&anio=${anio}`);
         if (!data || data.length === 0) {
-            container.innerHTML = '<p class="alert-info">📊 No hay asignaciones de turno para este cajero en el período seleccionado.</p>';
+            container.innerHTML = '<p class="alert-info"> No hay asignaciones de turno para este cajero en el período seleccionado.</p>';
             return;
         }
         let html = `
@@ -336,6 +336,6 @@ async function reporteTurnosCajero() {
         html += '</tbody></table></div>';
         container.innerHTML = html;
     } catch (error) {
-        container.innerHTML = `<p class="alert-error">❌ Error: ${error.message}</p>`;
+        container.innerHTML = `<p class="alert-error"> Error: ${error.message}</p>`;
     }
 }

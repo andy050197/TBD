@@ -25,19 +25,19 @@ async function buscarEntrada() {
         return;
     }
     const infoDiv = document.getElementById('info-entrada');
-    infoDiv.innerHTML = '<div class="loading">⏳ Verificando entrada...</div>';
+    infoDiv.innerHTML = '<div class="loading"> Verificando entrada...</div>';
     document.getElementById('cambio-container').style.display = 'none';
 
     try {
         // Obtener entrada usando la API
         const data = await apiFetch(`/ventas/mis-entradas?ci=${ci}`);
         if (!data || !data.entradas) {
-            infoDiv.innerHTML = '<p class="alert-error">❌ No se encontraron entradas para este CI.</p>';
+            infoDiv.innerHTML = '<p class="alert-error"> No se encontraron entradas para este CI.</p>';
             return;
         }
         const entrada = data.entradas.find(e => e.id_entrada === idEntrada);
         if (!entrada) {
-            infoDiv.innerHTML = '<p class="alert-error">❌ No se encontró la entrada. Verifica el número.</p>';
+            infoDiv.innerHTML = '<p class="alert-error"> No se encontró la entrada. Verifica el número.</p>';
             return;
         }
         entradaActual = entrada;
@@ -46,11 +46,11 @@ async function buscarEntrada() {
         infoDiv.innerHTML = `
             <div class="card">
                 <h3>🎫 Entrada #${entradaActual.id_entrada}</h3>
-                <p><strong>🎬 Película:</strong> ${funcionActual?.pelicula?.tituloesp || 'N/A'}</p>
-                <p><strong>📅 Fecha función:</strong> ${formatearFecha(funcionActual?.fecha)}</p>
-                <p><strong>⏰ Hora:</strong> ${formatearHora(funcionActual?.horainicio)}</p>
-                <p><strong>🏢 Sala:</strong> ${funcionActual?.sala?.nombresala || 'N/A'}</p>
-                <p><strong>🪑 Asiento actual:</strong> ${entradaActual.id_asiento}</p>
+                <p><strong> Película:</strong> ${funcionActual?.pelicula?.tituloesp || 'N/A'}</p>
+                <p><strong> Fecha función:</strong> ${formatearFecha(funcionActual?.fecha)}</p>
+                <p><strong> Hora:</strong> ${formatearHora(funcionActual?.horainicio)}</p>
+                <p><strong> Sala:</strong> ${funcionActual?.sala?.nombresala || 'N/A'}</p>
+                <p><strong> Asiento actual:</strong> ${entradaActual.id_asiento}</p>
             </div>
         `;
 
@@ -58,7 +58,7 @@ async function buscarEntrada() {
         renderizarAsientosDisponibles();
         document.getElementById('cambio-container').style.display = 'block';
     } catch (error) {
-        infoDiv.innerHTML = `<p class="alert-error">❌ Error: ${error.message}</p>`;
+        infoDiv.innerHTML = `<p class="alert-error"> Error: ${error.message}</p>`;
     }
 }
 
@@ -88,7 +88,7 @@ async function cargarAsientosFuncion() {
 
 function renderizarAsientosDisponibles() {
     const container = document.getElementById('nuevos-asientos-container');
-    container.innerHTML = '<div class="pantalla">🎬 PANTALLA</div>';
+    container.innerHTML = '<div class="pantalla"> PANTALLA</div>';
     const asientosPorFila = {};
     asientosDisponibles.forEach(asiento => {
         if (!asientosPorFila[asiento.fila]) asientosPorFila[asiento.fila] = [];
@@ -133,7 +133,7 @@ async function confirmarCambio() {
                 id_asiento_nuevo: nuevoAsientoSeleccionado
             })
         });
-        mostrarAlerta('alerta-container', `✅ Asiento cambiado exitosamente al asiento ${nuevoAsientoSeleccionado}`, 'exito');
+        mostrarAlerta('alerta-container', ` Asiento cambiado exitosamente al asiento ${nuevoAsientoSeleccionado}`, 'exito');
         nuevoAsientoSeleccionado = null;
         entradaActual = null;
         document.getElementById('id_entrada').value = '';
@@ -141,6 +141,6 @@ async function confirmarCambio() {
         document.getElementById('info-entrada').innerHTML = '';
         document.getElementById('cambio-container').style.display = 'none';
     } catch (error) {
-        mostrarAlerta('alerta-container', `❌ Error al cambiar asiento: ${error.message}`, 'error');
+        mostrarAlerta('alerta-container', ` Error al cambiar asiento: ${error.message}`, 'error');
     }
 }

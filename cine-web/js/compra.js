@@ -28,10 +28,10 @@ async function cargarFuncion(idFuncion) {
         const infoDiv = document.getElementById('info-funcion');
         infoDiv.innerHTML = `
             <h3>🎬 ${data.pelicula?.tituloesp || 'Película'}</h3>
-            <p><strong>📅 Fecha:</strong> ${formatearFecha(data.fecha)}</p>
-            <p><strong>⏰ Hora:</strong> ${formatearHora(data.horainicio)}</p>
-            <p><strong>🏢 Sala:</strong> ${salaActual?.nombresala || 'Sala'}</p>
-            <p><strong>💰 Precio por entrada:</strong> ${formatearMoneda(data.precio)}</p>
+            <p><strong> Fecha:</strong> ${formatearFecha(data.fecha)}</p>
+            <p><strong> Hora:</strong> ${formatearHora(data.horainicio)}</p>
+            <p><strong> Sala:</strong> ${salaActual?.nombresala || 'Sala'}</p>
+            <p><strong> Precio por entrada:</strong> ${formatearMoneda(data.precio)}</p>
         `;
         document.getElementById('precio-unitario').textContent = formatearMoneda(data.precio);
         actualizarResumen();
@@ -67,7 +67,7 @@ async function cargarAsientosOcupados() {
 function renderizarMapaAsientos() {
     const container = document.getElementById('mapa-asientos-container');
     if (!container) return;
-    container.innerHTML = '<div class="pantalla">🎬 PANTALLA</div>';
+    container.innerHTML = '<div class="pantalla"> PANTALLA</div>';
     const asientosPorFila = {};
     asientosDisponibles.forEach(asiento => {
         if (!asientosPorFila[asiento.fila]) asientosPorFila[asiento.fila] = [];
@@ -150,12 +150,12 @@ async function realizarCompra() {
                 canal: 'web'
             })
         });
-        mostrarAlerta('alerta-container', `✅ Compra exitosa! Se generaron ${resultado.entradas.length} entradas.`, 'exito');
+        mostrarAlerta('alerta-container', ` Compra exitosa! Se generaron ${resultado.entradas.length} entradas.`, 'exito');
         asientosSeleccionados = [];
         actualizarResumen();
         await cargarAsientosOcupados();
         renderizarMapaAsientos();
     } catch (error) {
-        mostrarAlerta('alerta-container', `❌ Error en la compra: ${error.message}`, 'error');
+        mostrarAlerta('alerta-container', ` Error en la compra: ${error.message}`, 'error');
     }
 }

@@ -32,8 +32,8 @@ function mostrarAlerta(elementoId, mensaje, tipo = 'error') {
             alertaDiv.innerHTML = '';
         }, 5000);
     } else {
-        if (tipo === 'error') alert('❌ ' + mensaje);
-        else alert('✅ ' + mensaje);
+        if (tipo === 'error') alert(mensaje);
+        else alert(mensaje);
     }
 }
 

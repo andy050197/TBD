@@ -20,12 +20,12 @@ async function buscarEntradas() {
         mostrarAlerta('alerta-container', 'CI inválido (debe tener 4-10 dígitos)', 'error');
         return;
     }
-    container.innerHTML = '<div class="loading">⏳ Buscando tus entradas...</div>';
+    container.innerHTML = '<div class="loading"> Buscando tus entradas...</div>';
 
     try {
         const data = await apiFetch(`/ventas/mis-entradas?ci=${ci}`);
         if (!data || !data.entradas || data.entradas.length === 0) {
-            container.innerHTML = '<p class="alert-info">🎫 No tienes entradas registradas.</p>';
+            container.innerHTML = '<p class="alert-info"> No tienes entradas registradas.</p>';
             return;
         }
         const { cliente, entradas } = data;
@@ -43,20 +43,20 @@ async function buscarEntradas() {
             html += `
                 <div class="card">
                     <h3>🎬 ${pelicula?.tituloesp || 'Película'}</h3>
-                    <p><strong>🎟️ N° Entrada:</strong> ${entrada.id_entrada}</p>
-                    <p><strong>🪑 Asiento:</strong> ${entrada.id_asiento}</p>
-                    <p><strong>📅 Fecha función:</strong> ${formatearFecha(funcion?.fecha)}</p>
-                    <p><strong>⏰ Hora:</strong> ${formatearHora(funcion?.horainicio)}</p>
-                    <p><strong>🏢 Sala:</strong> ${sala?.nombresala || 'N/A'}</p>
-                    <p><strong>📍 Sucursal:</strong> ${sala?.sucursal?.direccion || ''}</p>
-                    <p><strong>💰 Precio pagado:</strong> ${formatearMoneda(entrada.precio)}</p>
-                    <p><strong>💳 Canal:</strong> ${entrada.factura?.canal?.toUpperCase() || 'N/A'}</p>
-                    <p><strong>📅 Fecha compra:</strong> ${formatearFecha(entrada.fechacompra)}</p>
+                    <p><strong> N° Entrada:</strong> ${entrada.id_entrada}</p>
+                    <p><strong> Asiento:</strong> ${entrada.id_asiento}</p>
+                    <p><strong> Fecha función:</strong> ${formatearFecha(funcion?.fecha)}</p>
+                    <p><strong> Hora:</strong> ${formatearHora(funcion?.horainicio)}</p>
+                    <p><strong> Sala:</strong> ${sala?.nombresala || 'N/A'}</p>
+                    <p><strong> Sucursal:</strong> ${sala?.sucursal?.direccion || ''}</p>
+                    <p><strong> Precio pagado:</strong> ${formatearMoneda(entrada.precio)}</p>
+                    <p><strong> Canal:</strong> ${entrada.factura?.canal?.toUpperCase() || 'N/A'}</p>
+                    <p><strong> Fecha compra:</strong> ${formatearFecha(entrada.fechacompra)}</p>
                 </div>
             `;
         });
         container.innerHTML = html;
     } catch (error) {
-        container.innerHTML = `<p class="alert-error">❌ Error: ${error.message}</p>`;
+        container.innerHTML = `<p class="alert-error"> Error: ${error.message}</p>`;
     }
 }
